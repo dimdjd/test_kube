@@ -1,0 +1,6 @@
+1. Git clone https://github.com/dimdjd/test_kube.git
+
+2. cd test_kube/nextcloud/
+
+3. helm install my-nextcloud -f values.yaml nextcloud/nextcloud 
+4. helm upgrade my-nextcloud -f values.yaml nextcloud/nextcloud
