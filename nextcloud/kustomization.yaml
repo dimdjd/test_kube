@@ -1,0 +1,4 @@
+secretGenerator:
+- name: nextcloud-mariadb
+  literals:
+  - mariadb-root-password=1bHQtdG9rZW4tbnZ3emoiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2V
