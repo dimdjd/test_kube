@@ -8,19 +8,19 @@ image:
   # pullSecrets:
   #   - myRegistrKeySecretName
 
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "cloud"
+fullnameOverride: "djd_cloud"
 podAnnotations: {djd_cloud}
 deploymentAnnotations: {djd_cloud_v.1}
 
 # Number of replicas to be deployed
-replicaCount: 3
+replicaCount: 1
 
 ## Allowing use of ingress controllers
 ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ##
 ingress:
-  enabled: true
+  enabled: false
   # className: nginx
   annotations: {djd_cloud}
   #  nginx.ingress.kubernetes.io/proxy-body-size: 4G
@@ -334,8 +334,8 @@ cronjob:
 service:
   type: ClusterIP
   port: 8080
-  loadBalancerIP: nil
-  nodePort: nil
+  loadBalancerIP: ""
+  nodePort: ""
 
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
@@ -437,7 +437,7 @@ metrics:
   # Use API token if set, otherwise fall back to password authentication
   # https://github.com/xperimental/nextcloud-exporter#token-authentication
   # Currently you still need to set the token manually in your nextcloud install
-  token: ""
+  token: "e770120b4ec9102a9d3840724dcbef732c330014b752df02578dd66ec9f9bc32"
   timeout: 5s
 
   image:
@@ -463,22 +463,22 @@ metrics:
     annotations:
       prometheus.io/scrape: "true"
       prometheus.io/port: "9205"
-    labels: {}
+    labels: {balancer}
 
   ## Prometheus Operator ServiceMonitor configuration
   ##
   serviceMonitor:
     ## @param metrics.serviceMonitor.enabled Create ServiceMonitor Resource for scraping metrics using PrometheusOperator
       ##
-    enabled: false
+    enabled: true
 
     ## @param metrics.serviceMonitor.namespace Namespace in which Prometheus is running
     ##
-    namespace: ""
+    namespace: "cloud"
 
     ## @param metrics.serviceMonitor.jobLabel The name of the label on the target service to use as the job name in prometheus.
     ##
-    jobLabel: ""
+    jobLabel: "monitor_svc"
 
     ## @param metrics.serviceMonitor.interval Interval at which metrics should be scraped
     ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
@@ -488,7 +488,7 @@ metrics:
     ## @param metrics.serviceMonitor.scrapeTimeout Specify the timeout after which the scrape is ended
     ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
     ##
-    scrapeTimeout: ""
+    scrapeTimeout: "40s"
 
     ## @param metrics.serviceMonitor.labels Extra labels for the ServiceMonitor
     ##
