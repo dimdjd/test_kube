@@ -9,9 +9,9 @@ image:
   #   - myRegistrKeySecretName
 
 nameOverride: "cloud"
-fullnameOverride: "djd_cloud"
-podAnnotations: {djd_cloud}
-deploymentAnnotations: {djd_cloud_v.1}
+fullnameOverride: "djd-cloud"
+podAnnotations: {}
+deploymentAnnotations: {}
 
 # Number of replicas to be deployed
 replicaCount: 1
@@ -20,9 +20,9 @@ replicaCount: 1
 ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ##
 ingress:
-  enabled: false
+  enabled: true
   # className: nginx
-  annotations: {djd_cloud}
+  annotations: {}
   #  nginx.ingress.kubernetes.io/proxy-body-size: 4G
   #  kubernetes.io/tls-acme: "true"
   #  cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -215,16 +215,16 @@ externalDatabase:
   enabled: false
 
   ## Supported database engines: mysql or postgresql
-  type: mysql
+  type: postgresql
 
   ## Database host
-  host:
+  host: my-nextcloud
 
   ## Database user
-  user: nextcloud
+  user: nexcl_dbuser
 
   ## Database password
-  password:
+  password: 3Sx,wptCGP!VH1%+KXyp
 
   ## Database name
   database: nextcloud
@@ -274,7 +274,7 @@ postgresql:
         database: nextcloud
   primary:
     persistence:
-      enabled: true
+      enabled: false
       # storageClass: ""
 
 ##
@@ -292,7 +292,7 @@ redis:
 ## ref: https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/background_jobs_configuration.html#webcron
 ##
 cronjob:
-  enabled: true
+  enabled: false
   # Nexcloud image is used as default but only curl is needed
   image: {}
     # repository: nextcloud
@@ -334,8 +334,8 @@ cronjob:
 service:
   type: ClusterIP
   port: 8080
-  loadBalancerIP: ""
-  nodePort: ""
+  loadBalancerIP: nil
+  nodePort: nil
 
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
@@ -431,7 +431,7 @@ affinity: {}
 metrics:
   enabled: false
 
-  replicaCount: 1
+  replicaCount: 2
   # The metrics exporter needs to know how you serve Nextcloud either http or https
   https: false
   # Use API token if set, otherwise fall back to password authentication
